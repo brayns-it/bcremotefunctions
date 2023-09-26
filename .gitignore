@@ -1,0 +1,8 @@
+/bin
+/obj
+/.vs
+/packages
+/BC Remote Functions.csproj.user
+/Properties/PublishProfiles
+endpoints.json
+.config
