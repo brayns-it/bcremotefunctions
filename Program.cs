@@ -4,14 +4,11 @@ namespace BCRemoteFunctions
 {
     public class Program
     {
-        static string tokensFile = "";
-        public static Tokens Tokens { get; set; } = new();
-
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            tokensFile = builder.Environment.ContentRootPath + "/tokens.json";
+            Auth.TokensFile = builder.Environment.ContentRootPath + "/tokens.json";
 
             var app = builder.Build();
             app.MapPost("/{system}/{function}", Execute);
@@ -22,35 +19,19 @@ namespace BCRemoteFunctions
         {
             try
             {
-                if (!File.Exists(tokensFile))
-                    throw new Exception("No tokens enabled");
-
-                StreamReader sr = new StreamReader(tokensFile);
-                Tokens = JObject.Parse(sr.ReadToEnd()).ToObject<Tokens>()!;
-                sr.Close();
+                Auth.ReadTokens();
 
                 string system = httpContext.Request.RouteValues["system"]!.ToString()!;
                 string function = httpContext.Request.RouteValues["function"]!.ToString()!;
 
-                string auth = httpContext.Request.Headers["Authorization"]!.ToString()!;
-                if (!auth.StartsWith("Bearer "))
+                string bearer = httpContext.Request.Headers["Authorization"]!.ToString()!;
+                if (!bearer.StartsWith("Bearer "))
                     throw new Exception("Invalid authentication");
-                auth = auth.Substring(7);
+                bearer = bearer.Substring(7);
 
-                bool authOk = false;
-                foreach (var tok in Tokens.tokens)
-                {
-                    if (tok.token == auth)
-                    {
-                        authOk = true;
-                        break;
-                    }
-                }
+                var tok = Auth.VerifyToken(bearer);
 
-                if (!authOk)
-                    throw new Exception("Unauthorized");
-
-                sr = new StreamReader(httpContext.Request.Body);
+                var sr = new StreamReader(httpContext.Request.Body);
                 JObject request = JObject.Parse(await sr.ReadToEndAsync());
                 sr.Close();
 
@@ -60,6 +41,9 @@ namespace BCRemoteFunctions
                 {
                     case "generic":
                         response = await Generic.Execute(function, request);
+                        break;
+                    case "fileSystem":
+                        response = await FileSystem.Execute(function, request, tok);
                         break;
                     default:
                         throw new Exception("Invalid system");
