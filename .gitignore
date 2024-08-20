@@ -1,8 +1,12 @@
-/bin
-/obj
-/.vs
-/packages
-/BC Remote Functions.csproj.user
+.vs
+/var/*.*
+/var/log
+/var/apps
 /Properties/PublishProfiles
-endpoints.json
+/Properties/*.json
+/obj
+/bin
 .config
+*.user
+/apps
+*.mo

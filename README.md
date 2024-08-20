@@ -3,7 +3,10 @@ BC Remote Functions is a simple Web API provider to allow low level programming
 with Business Central.
 
 # Documentation
-:soon: Knowledge base coming soon.
+See [Brayns Experience KB](https://kb.brayns.it/books/experience/page/remote-functions)
+
+# Requrements
+Built with Shaper Framework, follow instruction on [Brayns Shaper KB](https://kb.brayns.it/books/shaper-quick-start)
 
 # License
 Remote Functions is an Open Source project provided in dual licensing mode:

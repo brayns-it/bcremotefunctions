@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.7.34031.279
+VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BC Remote Functions", "BC Remote Functions.csproj", "{089721B1-60B5-4621-B28A-ACA487B4EDDD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BC Remote Functions", "BC Remote Functions.csproj", "{4090A5F5-B43A-42D5-AC97-9BACC6A1479A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shaper", "..\..\Shaper\Shaper\Shaper.csproj", "{05D9967F-E82A-4CC9-BD5A-0A2D713CFC27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShaperWeb", "..\..\Shaper\ShaperWeb\ShaperWeb.csproj", "{962EACC0-C186-49AC-80AB-0D2C541522C2}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ShaperSystem", "..\..\Shaper\ShaperSystem\ShaperSystem.shproj", "{A5FE40FD-C0A4-4442-B21B-2FF26E46A50A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +17,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{089721B1-60B5-4621-B28A-ACA487B4EDDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{089721B1-60B5-4621-B28A-ACA487B4EDDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{089721B1-60B5-4621-B28A-ACA487B4EDDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{089721B1-60B5-4621-B28A-ACA487B4EDDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4090A5F5-B43A-42D5-AC97-9BACC6A1479A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4090A5F5-B43A-42D5-AC97-9BACC6A1479A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4090A5F5-B43A-42D5-AC97-9BACC6A1479A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4090A5F5-B43A-42D5-AC97-9BACC6A1479A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05D9967F-E82A-4CC9-BD5A-0A2D713CFC27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05D9967F-E82A-4CC9-BD5A-0A2D713CFC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05D9967F-E82A-4CC9-BD5A-0A2D713CFC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05D9967F-E82A-4CC9-BD5A-0A2D713CFC27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{962EACC0-C186-49AC-80AB-0D2C541522C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{962EACC0-C186-49AC-80AB-0D2C541522C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{962EACC0-C186-49AC-80AB-0D2C541522C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{962EACC0-C186-49AC-80AB-0D2C541522C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {DCE40EFE-02D2-48EF-AD64-B8EEDCFD0698}
+		SolutionGuid = {B5D25E18-A32E-4C71-A8D4-D2148969187B}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\Shaper\ShaperSystem\ShaperSystem.projitems*{4090a5f5-b43a-42d5-ac97-9bacc6a1479a}*SharedItemsImports = 5
+		..\..\Shaper\ShaperSystem\ShaperSystem.projitems*{a5fe40fd-c0a4-4442-b21b-2ff26e46a50a}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
