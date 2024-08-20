@@ -9,6 +9,19 @@
             return File.Exists(path);
         }
 
+        [ApiMethod(Method = RequestMethod.Post, Route = "fileSystem/ListFiles")]
+        public List<string> ListFiles(string path)
+        {
+            CheckPathSecurity(path);
+
+            var result = new List<string>();
+            var di = new DirectoryInfo(path);
+            foreach (var fi in di.GetFiles())
+                result.Add(fi.Name);
+
+            return result;
+        }
+
         [ApiMethod(Method = RequestMethod.Post, Route = "fileSystem/MoveFile")]
         public void MoveFile(string oldPath, string newPath)
         {
