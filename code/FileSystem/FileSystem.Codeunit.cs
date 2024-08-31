@@ -10,14 +10,15 @@
         }
 
         [ApiMethod(Method = RequestMethod.Post, Route = "fileSystem/ListFiles")]
-        public List<string> ListFiles(string path)
+        public List<string> ListFiles(string path, List<string> filters)
         {
             CheckPathSecurity(path);
 
             var result = new List<string>();
             var di = new DirectoryInfo(path);
-            foreach (var fi in di.GetFiles())
-                result.Add(fi.Name);
+            foreach (var filter in filters)
+                foreach (var fi in di.GetFiles(filter))
+                    result.Add(fi.Name);
 
             return result;
         }
