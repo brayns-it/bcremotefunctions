@@ -12,6 +12,7 @@
                 {
                     new Controls.Field(general, Rec.UserID);
                     new Controls.Field(general, Rec.Path);
+                    new Controls.Field(general, Rec.CredentialCode);
                 }
             }
         }

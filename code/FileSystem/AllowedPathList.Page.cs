@@ -13,6 +13,7 @@
                 {
                     new Controls.Field(grid, Rec.UserID);
                     new Controls.Field(grid, Rec.Path);
+                    new Controls.Field(grid, Rec.CredentialCode);
                 }
             }
         }
