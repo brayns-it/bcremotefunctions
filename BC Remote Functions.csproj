@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
+      <PackageReference Include="FluentFTP" Version="53.0.2" />
       <PackageReference Include="QRCoder" Version="1.6.0" />
     </ItemGroup>
 
