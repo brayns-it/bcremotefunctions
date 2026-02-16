@@ -1,5 +1,7 @@
 ﻿using FluentFTP;
 using System.Text.RegularExpressions;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
 
 namespace BCRemoteFunctions
 {
@@ -53,6 +55,10 @@ namespace BCRemoteFunctions
                 case FtpClient ftp:
                     ftp.Disconnect();
                     break;
+
+                case SftpClient sftp:
+                    sftp.Disconnect();
+                    break;
             }
         }
 
@@ -61,6 +67,9 @@ namespace BCRemoteFunctions
         {
             Cleanup();
 
+            string id = Guid.NewGuid().ToString();
+            object? conn;
+
             var u = new Uri(uri);
             if (u.Scheme.ToLower().StartsWith("ftp"))
             {
@@ -68,20 +77,27 @@ namespace BCRemoteFunctions
                 client.Config.EncryptionMode = FtpEncryptionMode.Auto;
                 client.Config.ValidateAnyCertificate = true;
                 client.Connect();
-
-                string id = Guid.NewGuid().ToString();
-                lock (_lockConnections)
-                {
-                    _connections[id] = client;
-                    _connAging[id] = DateTime.Now;
-                }
-
-                return id;
+                conn = client;
+            }
+            else if (u.Scheme.ToLower().StartsWith("sftp"))
+            {
+                SftpClient client = new SftpClient(u.Host, u.Port, login, password);
+                client.Connect();
+                conn = client;
             }
             else
             {
                 throw new Error(Label("Invalid scheme {0}", u.Scheme));
             }
+
+
+            lock (_lockConnections)
+            {
+                _connections[id] = conn;
+                _connAging[id] = DateTime.Now;
+            }
+
+            return id;
         }
 
         private object GetConnection(string connectionId)
@@ -100,6 +116,10 @@ namespace BCRemoteFunctions
             {
                 case FtpClient ftp:
                     result = ftp.FileExists(path);
+                    break;
+
+                case SftpClient sftp:
+                    result = sftp.Exists(path);
                     break;
             }
 
@@ -136,6 +156,12 @@ namespace BCRemoteFunctions
                         if (IsFileInFilters(itm.Name, filters))
                             result.Add(itm.Name);
                     break;
+
+                case SftpClient sftp:
+                    foreach (ISftpFile itm in sftp.ListDirectory(path))
+                        if (IsFileInFilters(itm.Name, filters))
+                            result.Add(itm.Name);
+                    break;
             }
 
             return result;
@@ -151,6 +177,10 @@ namespace BCRemoteFunctions
                 case FtpClient ftp:
                     if (!ftp.MoveFile(oldPath, newPath, FtpRemoteExists.Skip))
                         throw new Error(Label("Unable to move in {0}", newPath));
+                    break;
+
+                case SftpClient sftp:
+                    sftp.RenameFile(oldPath, newPath);
                     break;
             }
         }
@@ -168,6 +198,13 @@ namespace BCRemoteFunctions
                     if (!ftp.DownloadBytes(out buf, path))
                         throw new Error(Label("Unable to read {0}", path));
                     break;
+
+                case SftpClient sftp:
+                    MemoryStream ms = new MemoryStream();
+                    sftp.DownloadFile(path, ms);
+                    buf = ms.ToArray();
+                    ms.Close();
+                    break;
             }
 
             return Convert.ToBase64String(buf);
@@ -184,6 +221,11 @@ namespace BCRemoteFunctions
                     if (ftp.FileExists(path))
                         ftp.DeleteFile(path);
                     break;
+
+                case SftpClient sftp:
+                    if (sftp.Exists(path))
+                        sftp.Delete(path);
+                    break;
             }
         }
 
@@ -197,6 +239,13 @@ namespace BCRemoteFunctions
                 case FtpClient ftp:
                     if (ftp.UploadBytes(Convert.FromBase64String(content), path, FtpRemoteExists.Skip) != FtpStatus.Success)
                         throw new Error(Label("Unable to write {0}", path));
+                    break;
+
+                case SftpClient sftp:
+                    MemoryStream ms = new MemoryStream(Convert.FromBase64String(content));
+                    ms.Position = 0;
+                    sftp.UploadFile(ms, path);
+                    ms.Close();
                     break;
             }
         }
