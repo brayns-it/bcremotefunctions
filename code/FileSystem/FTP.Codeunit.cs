@@ -11,7 +11,7 @@ namespace BCRemoteFunctions
         private static Dictionary<string, object> _connections = new();
         private static Dictionary<string, DateTime> _connAging = new();
 
-        private void Cleanup()
+        public void Cleanup()
         {
             var toRemove = new List<string>();
 
@@ -63,12 +63,13 @@ namespace BCRemoteFunctions
         }
 
         [ApiMethod(Method = RequestMethod.Post, Route = "ftp/Connect")]
-        public string Connect(string uri, string login, string password)
+        public string Connect(string uri, string login, string password, string parameters)
         {
             Cleanup();
 
             string id = Guid.NewGuid().ToString();
             object? conn;
+            List<string> paramList = new(parameters.Split(','));
 
             var u = new Uri(uri);
             if (u.Scheme.ToLower().StartsWith("ftp"))
@@ -76,6 +77,12 @@ namespace BCRemoteFunctions
                 FtpClient client = new FtpClient(u.Host, login, password, u.Port);
                 client.Config.EncryptionMode = FtpEncryptionMode.Auto;
                 client.Config.ValidateAnyCertificate = true;
+                client.Config.DataConnectionType = FtpDataConnectionType.PASV;
+                if (paramList.Contains("ASCII"))
+                {
+                    client.Config.DownloadDataType = FtpDataType.ASCII;
+                    client.Config.UploadDataType = FtpDataType.ASCII;
+                }
                 client.Connect();
                 conn = client;
             }
