@@ -142,7 +142,7 @@ namespace BCRemoteFunctions
             {
                 var r = f.Replace(".", "\\.");
                 r = r.Replace("*", ".*");
-                if (Regex.IsMatch(name, r))
+                if (Regex.IsMatch(name, r, RegexOptions.IgnoreCase))
                     return true;
             }
 
