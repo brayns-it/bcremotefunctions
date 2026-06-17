@@ -30,6 +30,9 @@
       <PackageReference Include="FluentFTP" Version="53.0.2" />
       <PackageReference Include="QRCoder" Version="1.6.0" />
       <PackageReference Include="SSH.NET" Version="2025.1.0" />
+      <PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.8" />
+      <PackageReference Include="SimpleImpersonation" Version="4.2.0" />
+      <PackageReference Include="MailKit" Version="4.17.0" />
     </ItemGroup>
 
     <ItemGroup>

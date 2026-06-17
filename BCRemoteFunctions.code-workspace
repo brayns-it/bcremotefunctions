@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Shaper/Shaper"
+		},
+		{
+			"path": "../../Shaper/ShaperWeb"
+		}
+	],
+	"settings": {}
+}
